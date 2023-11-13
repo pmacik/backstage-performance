@@ -10,10 +10,12 @@ monitoring_collection_log=$ARTIFACT_DIR/monitoring-collection.log
 monitoring_collection_dir=$ARTIFACT_DIR/monitoring-collection-raw-data-dir
 mkdir -p "$monitoring_collection_dir"
 
+PYTHON_VENV_DIR=.venv
+
 echo "$(date --utc -Ins) Setting up tool to collect monitoring data"
-python3 -m venv venv
+python3 -m venv $PYTHON_VENV_DIR
 set +u
-source venv/bin/activate
+source $PYTHON_VENV_DIR/bin/activate
 set -u
 python3 -m pip install --quiet -U pip
 python3 -m pip install --quiet -e "git+https://github.com/redhat-performance/opl.git#egg=opl-rhcloud-perf-team-core&subdirectory=core"
@@ -23,7 +25,7 @@ set -u
 
 echo "$(date --utc -Ins) Collecting monitoring data"
 set +u
-source venv/bin/activate
+source $PYTHON_VENV_DIR/bin/activate
 set -u
 pwd
 ls -alh
