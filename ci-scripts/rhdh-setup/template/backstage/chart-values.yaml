@@ -2,6 +2,12 @@ global:
   clusterRouterBase: ${OPENSHIFT_APP_DOMAIN}
   imagePullSecrets:
     - rhdh-pull-secret
+  dynamic:
+    includes:
+      - dynamic-plugins.default.yaml
+    plugins:
+      - package: ./dynamic-plugins/dist/janus-idp-backstage-plugin-keycloak-backend-dynamic
+        disabled: false
 route:
   enabled: true
   host: "{{ .Values.global.host }}"
