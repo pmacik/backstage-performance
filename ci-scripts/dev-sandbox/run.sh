@@ -60,14 +60,15 @@ export RHDH_BASE_URL
 RHDH_BASE_URL="https://$(oc get routes "$rhdh_route" -n "${RHDH_NAMESPACE:-rhdh-performance}" -o jsonpath='{.spec.host}')"
 # end-of testing env
 
-envsubst <"$SCRIPT_DIR/rhdh-perf-workloads.template.yaml" >"$TMP_DIR/rhdh-perf.workloads.yaml"
-template="${1:-"$TMP_DIR/rhdh-perf.workloads.yaml"}"
+template="${1:-"$SCRIPT_DIR/rhdh-perf-workloads.template.yaml"}"
+user_workloads="$TMP_DIR/rhdh-perf.workloads.yaml"
+envsubst <"$template" >"$user_workloads"
 for r in $(seq -w 1 "${2:-10}"); do
     TEST_ID="run$r"
     echo "Running $TEST_ID"
     make clean-users
     collect_counts "$TEST_ID-counts-pre"
-    cmd="go run setup/main.go --users 2000 --default 2000 --custom 2000 --template=$template $workloads --username $TEST_ID --testname=$TEST_ID --verbose --idler-timeout 15m"
+    cmd="go run setup/main.go --users 2000 --default 2000 --custom 2000 --template=$user_workloads $workloads --username $TEST_ID --testname=$TEST_ID --verbose --idler-timeout 15m"
     yes | $cmd |& tee "$TEST_ID.log" && out="tmp/results/$(date +%F_%T)-counts.csv"
     collect_counts "$TEST_ID-counts-post"
 done
