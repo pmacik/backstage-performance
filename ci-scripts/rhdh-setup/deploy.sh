@@ -165,11 +165,13 @@ install() {
 keycloak_install() {
     export KEYCLOAK_CLIENT_SECRET
     export COOKIE_SECRET
+    export SESSION_SECRET
     KEYCLOAK_CLIENT_SECRET=$(mktemp -u XXXXXXXXXX)
     COOKIE_SECRET=$(
         dd if=/dev/urandom bs=32 count=1 2>/dev/null | base64 | tr -d -- '\n' | tr -- '+/' '-_'
         echo
     )
+    SESSION_SECRET=$COOKIE_SECRET
     envsubst <template/keycloak/keycloak-op.yaml | $clin apply -f -
     envsubst <template/backstage/perf-test-secrets.yaml | $clin apply -f -
     grep -m 1 "rhsso-operator" <($clin get pods -w)
@@ -178,13 +180,13 @@ keycloak_install() {
     wait_to_start statefulset keycloak 450 600
     envsubst <template/keycloak/keycloakRealm.yaml | $clin apply -f -
     if [ "$INSTALL_METHOD" == "helm" ]; then
-        export OAUTH2_REDIRECT_URI=https://${RHDH_HELM_RELEASE_NAME}-${RHDH_HELM_CHART}-${RHDH_NAMESPACE}.${OPENSHIFT_APP_DOMAIN}/oauth2/callback
+        export OAUTH2_REDIRECT_URI=https://${RHDH_HELM_RELEASE_NAME}-${RHDH_HELM_CHART}-${RHDH_NAMESPACE}.${OPENSHIFT_APP_DOMAIN}/api/auth/oidc/handler/frame
     elif [ "$INSTALL_METHOD" == "olm" ]; then
-        if [ "$AUTH_PROVIDER" == "keycloak" ]; then
-            export OAUTH2_REDIRECT_URI=https://rhdh-${RHDH_NAMESPACE}.${OPENSHIFT_APP_DOMAIN}/oauth2/callback
-        else
-            export OAUTH2_REDIRECT_URI=https://backstage-developer-hub-${RHDH_NAMESPACE}.${OPENSHIFT_APP_DOMAIN}/oauth2/callback
-        fi
+        # if [ "$AUTH_PROVIDER" == "keycloak" ]; then
+        # export OAUTH2_REDIRECT_URI=https://rhdh-${RHDH_NAMESPACE}.${OPENSHIFT_APP_DOMAIN}/oauth2/callback
+        # else
+        export OAUTH2_REDIRECT_URI=https://backstage-developer-hub-${RHDH_NAMESPACE}.${OPENSHIFT_APP_DOMAIN}/api/auth/oidc/handler/frame
+        # fi
     fi
     envsubst <template/keycloak/keycloakClient.yaml | $clin apply -f -
     # shellcheck disable=SC2016
@@ -217,16 +219,15 @@ create_objs() {
 backstage_install() {
     log_info "Installing RHDH with install method: $INSTALL_METHOD"
     cp "template/backstage/app-config.yaml" "$TMP_DIR/app-config.yaml"
-    if [ "${AUTH_PROVIDER}" == "keycloak" ]; then yq -i '. |= . + {"signInPage":"oauth2Proxy"}' "$TMP_DIR/app-config.yaml"; fi
-    if [ "${AUTH_PROVIDER}" == "keycloak" ]; then yq -i '. |= . + {"auth":{"environment":"production","providers":{"oauth2Proxy":{}}}}' "$TMP_DIR/app-config.yaml"; else yq -i '. |= . + {"auth":{"providers":{"guest":{"dangerouslyAllowOutsideDevelopment":true}}}}' "$TMP_DIR/app-config.yaml"; fi
+    #if [ "${AUTH_PROVIDER}" == "keycloak" ]; then yq -i '. |= . + {"signInPage":"oidc","auth":{"backstageTokenExpiration":{"minutes":10},"providers":{"oidc":{"production":{"metadataUrl":"${KEYCLOAK_BASE_URL}/realms/${KEYCLOAK_REALM}","clientId":"${CLIENT_ID}","clientSecret":"${CLIENT_SECRET}","prompt":"auto","signIn":{"resolvers":[{"resolver":"preferredUsernameMatchingUserEntityName"},{"resolver":"emailMatchingUserEntityProfileEmail"},{"resolver":"emailLocalPartMatchingUserEntityName"}]}}}}}}' "$TMP_DIR/app-config.yaml"; else yq -i '. |= . + {"auth":{"providers":{"guest":{"dangerouslyAllowOutsideDevelopment":true}}}}' "$TMP_DIR/app-config.yaml"; fi
     if [ "$INSTALL_METHOD" == "helm" ]; then
         base_url="https://${RHDH_HELM_RELEASE_NAME}-${RHDH_HELM_CHART}-${RHDH_NAMESPACE}.${OPENSHIFT_APP_DOMAIN}"
     elif [ "$INSTALL_METHOD" == "olm" ]; then
-        if [ "$AUTH_PROVIDER" == "keycloak" ]; then
-            base_url="https://rhdh-${RHDH_NAMESPACE}.${OPENSHIFT_APP_DOMAIN}"
-        else
-            base_url="https://backstage-developer-hub-${RHDH_NAMESPACE}.${OPENSHIFT_APP_DOMAIN}"
-        fi
+        # if [ "$AUTH_PROVIDER" == "keycloak" ]; then
+        # base_url="https://rhdh-${RHDH_NAMESPACE}.${OPENSHIFT_APP_DOMAIN}"
+        # else
+        base_url="https://backstage-developer-hub-${RHDH_NAMESPACE}.${OPENSHIFT_APP_DOMAIN}"
+        # fi
     fi
     yq -i '.app.baseUrl="'"$base_url"'"' "$TMP_DIR/app-config.yaml"
     yq -i '.backend.baseUrl="'"$base_url"'"' "$TMP_DIR/app-config.yaml"
@@ -271,7 +272,7 @@ install_rhdh_with_helm() {
     fi
     log_info "Installing RHDH Helm chart $RHDH_HELM_RELEASE_NAME from $chart_origin in $RHDH_NAMESPACE namespace"
     cp "$chart_values" "$TMP_DIR/chart-values.temp.yaml"
-    if [ "${AUTH_PROVIDER}" == "keycloak" ]; then yq -i '.upstream.backstage |= . + load("template/backstage/helm/oauth2-container-patch.yaml")' "$TMP_DIR/chart-values.temp.yaml"; fi
+    # if [ "${AUTH_PROVIDER}" == "keycloak" ]; then yq -i '.upstream.backstage |= . + load("template/backstage/helm/oauth2-container-patch.yaml")' "$TMP_DIR/chart-values.temp.yaml"; fi
     if ${ENABLE_RBAC}; then
         if helm search repo --devel -r rhdh --version 1.4-1 --fail-on-no-result; then
             yq -i '.upstream.backstage |= . + load("template/backstage/helm/extravolume-patch-1.4.yaml")' "$TMP_DIR/chart-values.temp.yaml"
@@ -302,8 +303,8 @@ install_rhdh_with_helm() {
     if [ -n "${RHDH_RESOURCES_CPU_LIMITS}" ]; then yq -i '.upstream.backstage.resources.limits.cpu = "'"${RHDH_RESOURCES_CPU_LIMITS}"'"' "$TMP_DIR/chart-values.yaml"; fi
     if [ -n "${RHDH_RESOURCES_MEMORY_REQUESTS}" ]; then yq -i '.upstream.backstage.resources.requests.memory = "'"${RHDH_RESOURCES_MEMORY_REQUESTS}"'"' "$TMP_DIR/chart-values.yaml"; fi
     if [ -n "${RHDH_RESOURCES_MEMORY_LIMITS}" ]; then yq -i '.upstream.backstage.resources.limits.memory = "'"${RHDH_RESOURCES_MEMORY_LIMITS}"'"' "$TMP_DIR/chart-values.yaml"; fi
-    if [ "${AUTH_PROVIDER}" == "keycloak" ]; then yq -i '.upstream.service.ports.targetPort = "oauth2-proxy"' "$TMP_DIR/chart-values.yaml"; fi
-    if [ "${AUTH_PROVIDER}" == "keycloak" ]; then yq -i '.upstream.service.ports.backend = 4180' "$TMP_DIR/chart-values.yaml"; fi
+    # if [ "${AUTH_PROVIDER}" == "keycloak" ]; then yq -i '.upstream.service.ports.targetPort = "oauth2-proxy"' "$TMP_DIR/chart-values.yaml"; fi
+    # if [ "${AUTH_PROVIDER}" == "keycloak" ]; then yq -i '.upstream.service.ports.backend = 4180' "$TMP_DIR/chart-values.yaml"; fi
     if ${ENABLE_PROFILING}; then
         yq -i '.upstream.backstage.command |= ["node", "--prof", "--heapsnapshot-signal=SIGUSR1", "packages/backend"]' "$TMP_DIR/chart-values.yaml"
         # Collecting the heap snapshot freezes the RHDH while getting and writting the heap snapshot to a file
@@ -336,9 +337,9 @@ install_rhdh_with_olm() {
     set +x
     wait_for_crd backstages.rhdh.redhat.com
 
-    if [ "$AUTH_PROVIDER" == "keycloak" ]; then
-        envsubst <template/backstage/olm/rhdh-oauth2.deployment.yaml | $clin apply -f -
-    fi
+    # if [ "$AUTH_PROVIDER" == "keycloak" ]; then
+    #     envsubst <template/backstage/olm/rhdh-oauth2.deployment.yaml | $clin apply -f -
+    # fi
 
     backstage_yaml="$TMP_DIR/backstage.yaml"
     envsubst <template/backstage/olm/backstage.yaml >"$backstage_yaml"

@@ -10,6 +10,9 @@ GITHUB_REPO="$(cat /usr/local/ci-secrets/backstage-performance/github.repo)"
 REPO_GIT="${GITHUB_REPO##*/}"
 REPO="${REPO_GIT%%.git}"
 
+EXCLUDE_PATTERN="^(main|1000-components|1000-apis)$"
+INCLUDE_PATTERN="^.*$"
+
 response_headers=$(mktemp)
 branches_list=$(mktemp)
 
@@ -19,7 +22,8 @@ echo -n "Collecting list of branches in '${GITHUB_REPO}' repository to delete"
 page=1
 while true; do
     echo -n "."
-    echo "$curl_args" "https://api.github.com/repos/$GITHUB_ORG/$REPO/branches?per_page=100&page=$page" | xargs curl | jq -r '.[].name' >>"$branches_list"
+    echo "$curl_args" "https://api.github.com/repos/$GITHUB_ORG/$REPO/branches?per_page=100&page=$page" |
+        xargs curl | jq -r '.[].name' | grep -E "$INCLUDE_PATTERN" | grep -Ev "$EXCLUDE_PATTERN" >>"$branches_list"
 
     if ! grep -q 'rel="next"' "$response_headers"; then
         break

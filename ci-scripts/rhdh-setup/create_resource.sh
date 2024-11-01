@@ -45,11 +45,11 @@ backstage_url() {
     if [ "$RHDH_INSTALL_METHOD" == "helm" ]; then
       rhdh_route="${RHDH_HELM_RELEASE_NAME}-${RHDH_HELM_CHART}"
     else
-      if [ "$AUTH_PROVIDER" == "keycloak" ]; then
-        rhdh_route="rhdh"
-      else
+      # if [ "$AUTH_PROVIDER" == "keycloak" ]; then
+      #   rhdh_route="rhdh"
+      # else
         rhdh_route="backstage-developer-hub"
-      fi
+      # fi
     fi
     echo -n "https://$(oc get routes "${rhdh_route}" -n "${RHDH_NAMESPACE}" -o jsonpath='{.spec.host}')" >"$f"
   fi
@@ -326,7 +326,7 @@ rhdh_token() {
     --data-urlencode "redirect_uri=${REDIRECT_URL}" \
     --data-urlencode "scope=openid email profile" \
     --data-urlencode "response_type=code" \
-    "$(keycloak_url)/auth/realms/$REALM/protocol/openid-connect/auth" | grep -oP 'action="\K[^"]+')
+    "$(keycloak_url)/auth/realms/$REALM/protocol/openid-connect/auth" | tee -a $TMP_DIR/auth_url.log | grep -oP 'action="\K[^"]+')
 
   execution=$(echo "$AUTH_URL" | grep -oP 'execution=\K[^&]+')
   tab_id=$(echo "$AUTH_URL" | grep -oP 'tab_id=\K[^&]+')
@@ -349,8 +349,7 @@ rhdh_token() {
   ACCESS_TOKEN=$(curl -k -sSL --cookie "$COOKIE" --cookie-jar "$COOKIE" \
     --data-urlencode "code=$code" \
     --data-urlencode "session_state=$session_state" \
-    --data-urlencode "state=$state" \
-    "$CODE_URL" | tee -a "$TMP_DIR/get_rhdh_token.log" | jq -r ".backstageIdentity" | jq -r ".expires_in_timestamp = $(date -d '30 minutes' +%s)")
+    "$CODE_URL" |& tee "$TMP_DIR/get_rhdh_token.log" | jq -r ".backstageIdentity" | jq -r ".expires_in_timestamp = $(date -d '30 minutes' +%s)")
   echo "$ACCESS_TOKEN"
 }
 
