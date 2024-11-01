@@ -45,11 +45,11 @@ backstage_url() {
     if [ "$RHDH_INSTALL_METHOD" == "helm" ]; then
       rhdh_route="$(oc -n "${RHDH_NAMESPACE}" get routes -l app.kubernetes.io/instance="${RHDH_HELM_RELEASE_NAME}" -o jsonpath='{.items[0].metadata.name}')"
     else
-      if [ "$AUTH_PROVIDER" == "keycloak" ]; then
-        rhdh_route="rhdh"
-      else
+      # if [ "$AUTH_PROVIDER" == "keycloak" ]; then
+      #   rhdh_route="rhdh"
+      # else
         rhdh_route="backstage-developer-hub"
-      fi
+      # fi
     fi
     echo -n "https://$(oc get routes "${rhdh_route}" -n "${RHDH_NAMESPACE}" -o jsonpath='{.spec.host}')" >"$f"
   fi

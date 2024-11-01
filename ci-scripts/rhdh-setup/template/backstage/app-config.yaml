@@ -30,6 +30,21 @@ techdocs:
     type: local
     local:
       publishDirectory: /opt/app-root/src/techdocs-data
+signInPage: oidc
+auth:
+  backstageTokenExpiration: { minutes: 10 }
+  providers:
+    oidc:
+      development:
+        metadataUrl: ${KEYCLOAK_BASE_URL}/realms/${KEYCLOAK_REALM}/.well-known/openid-configuration
+        clientId: ${CLIENT_ID}
+        clientSecret: ${CLIENT_SECRET}
+        prompt: auto
+        signIn:
+          resolvers:
+            - resolver: emailLocalPartMatchingUserEntityName
+              allowedDomains:
+                - test.com   
 enabled:
   github: true
   keycloak: true

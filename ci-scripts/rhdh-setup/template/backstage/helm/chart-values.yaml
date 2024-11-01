@@ -93,6 +93,8 @@ upstream:
         value: "${RHDH_LOG_LEVEL}"
       - name: NODE_TLS_REJECT_UNAUTHORIZED
         value: "0"
+      - name: NODE_ENV
+        value: "development"
     installDir: /app
     replicas: ${RHDH_DEPLOYMENT_REPLICAS}
     revisionHistoryLimit: 10
