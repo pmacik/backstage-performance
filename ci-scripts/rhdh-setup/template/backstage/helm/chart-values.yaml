@@ -83,6 +83,11 @@ upstream:
           secretKeyRef:
             key: CLIENT_SECRET
             name: keycloak-client-secret-backstage
+      - name: SESSION_SECRET
+        valueFrom:
+          secretKeyRef:
+            key: SESSION_SECRET
+            name: perf-test-secrets
       - name: LOG_LEVEL
         value: "warn"
       - name: NODE_TLS_REJECT_UNAUTHORIZED

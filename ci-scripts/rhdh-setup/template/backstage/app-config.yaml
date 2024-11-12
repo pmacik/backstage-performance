@@ -20,6 +20,24 @@ catalog:
           frequency: { seconds: 30 }
           timeout: { minutes: 1 }
           initialDelay: { seconds: 15 }
+signInPage: oidc
+auth:
+  environment: production
+  session:
+    secret: ${SESSION_SECRET}
+  backstageTokenExpiration: { minutes: 10 }
+  providers:
+    oidc:
+      production:
+        metadataUrl: ${KEYCLOAK_BASE_URL}/realms/${KEYCLOAK_REALM}
+        clientId: ${CLIENT_ID}
+        clientSecret: ${CLIENT_SECRET}
+        prompt: auto
+        signIn:
+          resolvers:
+            - resolver: preferredUsernameMatchingUserEntityName
+            - resolver: emailMatchingUserEntityProfileEmail
+            - resolver: emailLocalPartMatchingUserEntityName
 enabled:
   github: true
   keycloak: true

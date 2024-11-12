@@ -34,6 +34,8 @@ spec:
           name: keycloak-client-secret-backstage
         - key: BACKEND_SECRET
           name: rhdh-backend-secret
+        - key: SESSION_SECRET
+          name: perf-test-secrets
     route:
       enabled: true
   database:

@@ -10,6 +10,7 @@ spec:
     realm: "backstage"
     enabled: True
     displayName: "Backstage Realm"
+    accessTokenLifespan: 600
   instanceSelector:
     matchLabels:
       app: sso

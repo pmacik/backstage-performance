@@ -112,7 +112,7 @@ clone_and_upload() {
   sleep 5
   output="${TMP_DIR}/locations.yaml"
   if [ ! -f "$output" ]; then
-    echo "locations: []" > "$output"
+    echo "locations: []" >"$output"
   fi
   for filename in "${files[@]}"; do
     upload_url="${GITHUB_REPO%.*}/blob/${tmp_branch}/$(basename "$filename")"
@@ -260,12 +260,12 @@ keycloak_token() {
 }
 
 rhdh_token() {
-  REDIRECT_URL="$(backstage_url)/oauth2/callback"
-  REFRESH_URL="$(backstage_url)/api/auth/oauth2Proxy/refresh"
+  REALM="backstage"
+  CLIENT_ID="backstage"
+  CLIENT_SECRET=$(oc -n "${RHDH_NAMESPACE}" get secret keycloak-client-secret-backstage -o template --template='{{.data.CLIENT_SECRET}}' | base64 -d)
   USERNAME="guru"
   PASSWORD=$(oc -n "${RHDH_NAMESPACE}" get secret perf-test-secrets -o template --template='{{.data.keycloak_user_pass}}' | base64 -d)
-  REALM="backstage"
-  CLIENTID="backstage"
+  AUTH_URL="$(keycloak_url)/auth/realms/${REALM}/protocol/openid-connect/token"
 
   if [[ "${AUTH_PROVIDER}" != "keycloak" ]]; then
     ACCESS_TOKEN=$(curl -s -k --cookie "$COOKIE" --cookie-jar "$COOKIE" "$(backstage_url)/api/auth/guest/refresh" | jq -r ".backstageIdentity" | jq -r ".expires_in_timestamp = $(date -d '50 minutes' +%s)")
@@ -273,41 +273,15 @@ rhdh_token() {
     return
   fi
 
-  LOGIN_URL=$(curl -I -k -sSL --cookie "$COOKIE" --cookie-jar "$COOKIE" "$REFRESH_URL")
-  state=$(echo "$LOGIN_URL" | grep -oP 'state=\K[^ ]+' | sed 's/%2F/\//g;s/%3A/:/g')
-
-  AUTH_URL=$(curl -k -sSL --get --cookie "$COOKIE" --cookie-jar "$COOKIE" \
-    --data-urlencode "client_id=${CLIENTID}" \
-    --data-urlencode "state=${state}" \
-    --data-urlencode "redirect_uri=${REDIRECT_URL}" \
-    --data-urlencode "scope=openid email profile" \
-    --data-urlencode "response_type=code" \
-    "$(keycloak_url)/auth/realms/$REALM/protocol/openid-connect/auth" | grep -oP 'action="\K[^"]+')
-
-  execution=$(echo "$AUTH_URL" | grep -oP 'execution=\K[^&]+')
-  tab_id=$(echo "$AUTH_URL" | grep -oP 'tab_id=\K[^&]+')
-  # shellcheck disable=SC2001
-  AUTHENTICATE_URL=$(echo "$AUTH_URL" | sed -e 's/\&amp;/\&/g')
-
-  CODE_URL=$(curl -k -sS --cookie "$COOKIE" --cookie-jar "$COOKIE" \
-    --data-raw "username=${USERNAME}&password=${PASSWORD}&credentialId=" \
-    --data-urlencode "client_id=${CLIENTID}" \
-    --data-urlencode "tab_id=${tab_id}" \
-    --data-urlencode "execution=${execution}" \
-    --write-out "%{REDIRECT_URL}" \
-    "$AUTHENTICATE_URL")
-
-  code=$(echo "$CODE_URL" | grep -oP 'code=\K[^"]+')
-  session_state=$(echo "$CODE_URL" | grep -oP 'session_state=\K[^&]+')
-
-  # shellcheck disable=SC2001
-  CODE_URL=$(echo "$CODE_URL" | sed -e 's/\&amp;/\&/g')
-  ACCESS_TOKEN=$(curl -k -sSL --cookie "$COOKIE" --cookie-jar "$COOKIE" \
-    --data-urlencode "code=$code" \
-    --data-urlencode "session_state=$session_state" \
-    --data-urlencode "state=$state" \
-    "$CODE_URL" | tee -a "$TMP_DIR/get_rhdh_token.log" | jq -r ".backstageIdentity" | jq -r ".expires_in_timestamp = $(date -d '30 minutes' +%s)")
-  echo "$ACCESS_TOKEN"
+  ACCESS_TOKEN=$(curl -X POST --insecure "$AUTH_URL" \
+    -H "Content-Type: application/x-www-form-urlencoded" \
+    -d "grant_type=password" \
+    -d "client_id=$CLIENT_ID" \
+    -d "client_secret=$CLIENT_SECRET" \
+    -d "username=$USERNAME" \
+    -d "password=$PASSWORD" \
+    -d "scope=openid email profile" | jq -r ".expires_in_timestamp = $(date -d '10 minutes' +%s)")
+    echo $ACCESS_TOKEN
 }
 
 # shellcheck disable=SC2120
@@ -315,9 +289,9 @@ get_token() {
   service=$1
   if [[ ${service} == 'rhdh' ]]; then
     token_file="$TMP_DIR/rhdh_token.json"
-    token_field=".token"
+    token_field=".id_token"
     token_type="RHDH"
-    token_timeout="3600"
+    token_timeout="600"
   else
     token_file="$TMP_DIR/keycloak_token.json"
     token_field=".access_token"
