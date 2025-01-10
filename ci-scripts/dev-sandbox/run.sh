@@ -16,6 +16,8 @@ mkdir -p "${TMP_DIR}"
 WSTC=$(readlink -m "$rootdir/.toolchain-e2e.git")
 
 export RHDH_INSTALL_METHOD=${RHDH_INSTALL_METHOD:-olm}
+export RHDH_WORKLOADS_TEMPLATE_NAME=${RHDH_WORKLOADS_TEMPLATE_NAME:-default}
+export RHDH_WORKLOADS_TEMPLATE=${RHDH_WORKLOADS_TEMPLATE:-$SCRIPT_DIR/rhdh-perf-workloads.$RHDH_WORKLOADS_TEMPLATE_NAME.template.yaml}
 
 cd "$WSTC" || exit
 
@@ -64,9 +66,9 @@ export RHDH_BASE_URL
 RHDH_BASE_URL="https://$(oc get routes "$rhdh_route" -n "${RHDH_NAMESPACE:-rhdh-performance}" -o jsonpath='{.spec.host}')"
 # end-of testing env
 
-envsubst <"$SCRIPT_DIR/rhdh-perf-workloads.template.yaml" >"$TMP_DIR/rhdh-perf.workloads.yaml"
+envsubst <"$RHDH_WORKLOADS_TEMPLATE" >"$TMP_DIR/rhdh-perf.workloads.yaml"
 template="${1:-"$TMP_DIR/rhdh-perf.workloads.yaml"}"
-date --utc -Ins>"${ARTIFACT_DIR}/benchmark-before"
+date --utc -Ins >"${ARTIFACT_DIR}/benchmark-before"
 for r in $(seq -w 1 "${2:-10}"); do
     TEST_ID="run$r"
     echo "Running $TEST_ID"
@@ -76,4 +78,4 @@ for r in $(seq -w 1 "${2:-10}"); do
     yes | $cmd |& tee "$TEST_ID.log" && out="tmp/results/$(date +%F_%T)-counts.csv"
     collect_counts "$TEST_ID-counts-post"
 done
-date --utc -Ins>"${ARTIFACT_DIR}/benchmark-after"
+date --utc -Ins >"${ARTIFACT_DIR}/benchmark-after"

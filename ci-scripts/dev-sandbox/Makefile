@@ -6,6 +6,8 @@ export RHDH_OLM_CHANNEL ?= fast
 export RHDH_OLM_OPERATOR_PACKAGE ?= rhdh
 export RHDH_OLM_WATCH_EXT_CONF ?= true
 
+export RHDH_WORKLOADS_TEMPLATE_NAME ?= default
+
 export ARTIFACT_DIR ?=
 
 .PHONY: setup-toolchain-e2e
