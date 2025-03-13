@@ -1,0 +1,662 @@
+[
+     {
+          "Id": "d950b39eb5fdb754c32cf18a983f6522df65e8b6a32f677e3ec326f1da75644c",
+          "Digest": "sha256:5b6aeedef97021aad845c680f454efde40e842131a19cc7b5e7d75e942936834",
+          "RepoTags": [
+               "quay.io/rhdh/iib:1.5-v4.15-x86_64"
+          ],
+          "RepoDigests": [
+               "quay.io/rhdh/iib@sha256:5b6aeedef97021aad845c680f454efde40e842131a19cc7b5e7d75e942936834",
+               "quay.io/rhdh/iib@sha256:8e49a756c43dcfb69fb5e5783afd135ac20f2d9d80149000b731175d1506a623"
+          ],
+          "Parent": "",
+          "Comment": "",
+          "Created": "2025-02-12T00:07:14.545041574Z",
+          "Config": {
+               "User": "1001",
+               "ExposedPorts": {
+                    "50051/tcp": {}
+               },
+               "Env": [
+                    "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                    "container=oci",
+                    "GODEBUG=x509ignoreCN=0,madvdontneed=1",
+                    "__doozer=merge",
+                    "BUILD_RELEASE=202501210207.p0.gb500cb3.assembly.stream.el9",
+                    "BUILD_VERSION=v4.15.0",
+                    "OS_GIT_MAJOR=4",
+                    "OS_GIT_MINOR=15",
+                    "OS_GIT_PATCH=0",
+                    "OS_GIT_TREE_STATE=clean",
+                    "OS_GIT_VERSION=4.15.0-202501210207.p0.gb500cb3.assembly.stream.el9-b500cb3",
+                    "SOURCE_GIT_TREE_STATE=clean",
+                    "__doozer_group=openshift-4.15",
+                    "__doozer_key=operator-registry",
+                    "__doozer_version=v4.15.0",
+                    "OS_GIT_COMMIT=b500cb3",
+                    "SOURCE_DATE_EPOCH=1737424144",
+                    "SOURCE_GIT_COMMIT=b500cb365122dd2c1c0234c5227723bb9d36c2f1",
+                    "SOURCE_GIT_TAG=b500cb365",
+                    "SOURCE_GIT_URL=https://github.com/openshift/operator-framework-olm"
+               ],
+               "Entrypoint": [
+                    "/bin/opm"
+               ],
+               "Cmd": [
+                    "serve",
+                    "/configs",
+                    "--cache-dir=/tmp/cache"
+               ],
+               "WorkingDir": "/registry",
+               "Labels": {
+                    "License": "GPLv2+",
+                    "architecture": "x86_64",
+                    "build-date": "2025-02-12T00:07:10",
+                    "com.redhat.component": "operator-registry-container",
+                    "com.redhat.license_terms": "https://www.redhat.com/agreements",
+                    "description": "This is a component of OpenShift Operator Lifecycle Manager and is the base for operator catalog API containers.",
+                    "distribution-scope": "public",
+                    "io.buildah.version": "1.39.0-dev",
+                    "io.k8s.description": "This is a component of OpenShift Operator Lifecycle Manager and is the base for operator catalog API containers.",
+                    "io.k8s.display-name": "OpenShift Operator Registry",
+                    "io.openshift.build.commit.id": "b500cb365122dd2c1c0234c5227723bb9d36c2f1",
+                    "io.openshift.build.commit.url": "https://github.com/openshift/operator-framework-olm/commit/b500cb365122dd2c1c0234c5227723bb9d36c2f1",
+                    "io.openshift.build.source-location": "https://github.com/openshift/operator-framework-olm",
+                    "io.openshift.expose-services": "",
+                    "io.openshift.maintainer.component": "OLM / Registry",
+                    "io.openshift.maintainer.project": "OCPBUGS",
+                    "io.openshift.tags": "openshift,base",
+                    "konflux.additional-tags": "1.5-v4.15-x86_64,next-v4.15-x86_64",
+                    "license": "ASLv2",
+                    "maintainer": "RHDH Team <rhdh-bot@redhat.com>",
+                    "name": "openshift/ose-operator-registry-rhel9",
+                    "operators.operatorframework.io.bundle.channels.v1": "fast,fast-1.5",
+                    "operators.operatorframework.io.bundle.manifests.v1": "manifests/",
+                    "operators.operatorframework.io.bundle.mediatype.v1": "registry+v1",
+                    "operators.operatorframework.io.bundle.metadata.v1": "metadata/",
+                    "operators.operatorframework.io.bundle.package.v1": "rhdh-operator",
+                    "operators.operatorframework.io.index.configs.v1": "/configs",
+                    "operators.operatorframework.io.metrics.builder": "operator-sdk-v1.33.1",
+                    "operators.operatorframework.io.metrics.mediatype.v1": "metrics+v1",
+                    "operators.operatorframework.io.metrics.project_layout": "go.kubebuilder.io/v3",
+                    "quay.expires-after": "5d",
+                    "release": "202501210207.p0.gb500cb3.assembly.stream.el9",
+                    "summary": "Operator Registry runs in a Kubernetes or OpenShift cluster to provide operator catalog data to Operator Lifecycle Manager.",
+                    "url": "https://red.ht/rhdh",
+                    "vcs-ref": "1792f76dd92a253e9c98d104fbf82b831e9943bf",
+                    "vcs-type": "git",
+                    "vendor": "Red Hat, Inc.",
+                    "version": "1.5"
+               }
+          },
+          "Version": "",
+          "Author": "",
+          "Architecture": "amd64",
+          "Os": "linux",
+          "Size": 868949736,
+          "VirtualSize": 868949736,
+          "GraphDriver": {
+               "Name": "overlay",
+               "Data": {
+                    "LowerDir": "/home/pmacik/.local/share/containers/storage/overlay/4771bfd77928f4a6e84d21395204e7b91287d1465de988e51f7b1d3604bbe973/diff:/home/pmacik/.local/share/containers/storage/overlay/90a5163acfa31a5c17d97137f0f74d66b6fb50119ffb21a574c548f86b847806/diff:/home/pmacik/.local/share/containers/storage/overlay/b6e4cd862eb4a9c78ee77da9da3ffd2bb31dbc97b1033a87f510e4cebb23abca/diff:/home/pmacik/.local/share/containers/storage/overlay/bd7f057b23b078a41eccfc06d219a23ce64eb047747f37bec16e9881cb1616bb/diff",
+                    "UpperDir": "/home/pmacik/.local/share/containers/storage/overlay/ebfa78680dfc9cefaaad1705412bb98ae5048c90176c426eab11dc60bec61877/diff",
+                    "WorkDir": "/home/pmacik/.local/share/containers/storage/overlay/ebfa78680dfc9cefaaad1705412bb98ae5048c90176c426eab11dc60bec61877/work"
+               }
+          },
+          "RootFS": {
+               "Type": "layers",
+               "Layers": [
+                    "sha256:bd7f057b23b078a41eccfc06d219a23ce64eb047747f37bec16e9881cb1616bb",
+                    "sha256:2eca3dd270331613781159939623fcf23b4ad5006e6ae2923e375cd9d29154d9",
+                    "sha256:71d8b4a7fe9484dffc42151a47791d9fbc0464d94ac811a8996822b6fc31a74e",
+                    "sha256:b3cc69c01a6db46ddb765e4c34a8089841805d3e809f2e2a934be65b44c99e38",
+                    "sha256:5397baf855c56666493dedda8a87dcf0dabe752cd57e1c2a6e3ca44494d75c49"
+               ]
+          },
+          "Labels": {
+               "License": "GPLv2+",
+               "architecture": "x86_64",
+               "build-date": "2025-02-12T00:07:10",
+               "com.redhat.component": "operator-registry-container",
+               "com.redhat.license_terms": "https://www.redhat.com/agreements",
+               "description": "This is a component of OpenShift Operator Lifecycle Manager and is the base for operator catalog API containers.",
+               "distribution-scope": "public",
+               "io.buildah.version": "1.39.0-dev",
+               "io.k8s.description": "This is a component of OpenShift Operator Lifecycle Manager and is the base for operator catalog API containers.",
+               "io.k8s.display-name": "OpenShift Operator Registry",
+               "io.openshift.build.commit.id": "b500cb365122dd2c1c0234c5227723bb9d36c2f1",
+               "io.openshift.build.commit.url": "https://github.com/openshift/operator-framework-olm/commit/b500cb365122dd2c1c0234c5227723bb9d36c2f1",
+               "io.openshift.build.source-location": "https://github.com/openshift/operator-framework-olm",
+               "io.openshift.expose-services": "",
+               "io.openshift.maintainer.component": "OLM / Registry",
+               "io.openshift.maintainer.project": "OCPBUGS",
+               "io.openshift.tags": "openshift,base",
+               "konflux.additional-tags": "1.5-v4.15-x86_64,next-v4.15-x86_64",
+               "license": "ASLv2",
+               "maintainer": "RHDH Team <rhdh-bot@redhat.com>",
+               "name": "openshift/ose-operator-registry-rhel9",
+               "operators.operatorframework.io.bundle.channels.v1": "fast,fast-1.5",
+               "operators.operatorframework.io.bundle.manifests.v1": "manifests/",
+               "operators.operatorframework.io.bundle.mediatype.v1": "registry+v1",
+               "operators.operatorframework.io.bundle.metadata.v1": "metadata/",
+               "operators.operatorframework.io.bundle.package.v1": "rhdh-operator",
+               "operators.operatorframework.io.index.configs.v1": "/configs",
+               "operators.operatorframework.io.metrics.builder": "operator-sdk-v1.33.1",
+               "operators.operatorframework.io.metrics.mediatype.v1": "metrics+v1",
+               "operators.operatorframework.io.metrics.project_layout": "go.kubebuilder.io/v3",
+               "quay.expires-after": "5d",
+               "release": "202501210207.p0.gb500cb3.assembly.stream.el9",
+               "summary": "Operator Registry runs in a Kubernetes or OpenShift cluster to provide operator catalog data to Operator Lifecycle Manager.",
+               "url": "https://red.ht/rhdh",
+               "vcs-ref": "1792f76dd92a253e9c98d104fbf82b831e9943bf",
+               "vcs-type": "git",
+               "vendor": "Red Hat, Inc.",
+               "version": "1.5"
+          },
+          "Annotations": {
+               "org.opencontainers.image.base.digest": "sha256:312e184c0c10359fd3de4da585b9a227cac7d3afe5fae5f2481f8bc2cecbe221",
+               "org.opencontainers.image.base.name": "registry.redhat.io/openshift4/ose-operator-registry-rhel9:v4.15"
+          },
+          "ManifestType": "application/vnd.oci.image.manifest.v1+json",
+          "User": "1001",
+          "History": [
+               {
+                    "created": "2023-05-03T09:08:31.144737673Z",
+                    "created_by": "/bin/sh -c #(nop) ADD file:091e888311e2628528312ffc60e27702fe04b23f8e4c95b456c16a967cdd89e0 in / ",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2023-05-03T09:08:31.776816753Z",
+                    "created_by": "/bin/sh -c mv -f /etc/yum.repos.d/ubi.repo /tmp || :",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2023-05-03T09:08:32.042724775Z",
+                    "created_by": "/bin/sh -c #(nop) ADD file:214c1de395c24e4a86ef9a706069ef30a9e804c63f851c37c35655e16fea3ced in /tmp/tls-ca-bundle.pem ",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2023-05-03T09:08:32.4208673Z",
+                    "created_by": "/bin/sh -c #(nop) ADD multi:f86493bb1f97e09cfc781f090687c8e659a592be99d35f2aa9754c77981e273a in /etc/yum.repos.d/ ",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2023-05-03T09:08:32.420920048Z",
+                    "created_by": "/bin/sh -c #(nop) LABEL maintainer=\"Red Hat, Inc.\"",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2023-05-03T09:08:32.421001851Z",
+                    "created_by": "/bin/sh -c #(nop) LABEL com.redhat.component=\"rhel-els-container\"       name=\"rhel-els\"       version=\"9.2\"",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2023-05-03T09:08:32.421034451Z",
+                    "created_by": "/bin/sh -c #(nop) LABEL com.redhat.license_terms=\"https://www.redhat.com/en/about/red-hat-end-user-license-agreements#UBI\"",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2023-05-03T09:08:32.421064417Z",
+                    "created_by": "/bin/sh -c #(nop) LABEL summary=\"Provides the latest release of the Red Hat Extended Life Base Image.\"",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2023-05-03T09:08:32.421112963Z",
+                    "created_by": "/bin/sh -c #(nop) LABEL description=\"The Extended Life Base Image is designed and engineered to be the base layer for Red Hat extended life products. This base image is only supported for approved Red Hat products. This image is maintained by Red Hat and updated regularly.\"",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2023-05-03T09:08:32.4211405Z",
+                    "created_by": "/bin/sh -c #(nop) LABEL io.k8s.display-name=\"Red Hat Extended Life Base Image\"",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2023-05-03T09:08:32.421154823Z",
+                    "created_by": "/bin/sh -c #(nop) LABEL io.openshift.expose-services=\"\"",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2023-05-03T09:08:32.421173471Z",
+                    "created_by": "/bin/sh -c #(nop) LABEL io.openshift.tags=\"base rhel9\"",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2023-05-03T09:08:32.421182881Z",
+                    "created_by": "/bin/sh -c #(nop) ENV container oci",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2023-05-03T09:08:32.421258478Z",
+                    "created_by": "/bin/sh -c #(nop) ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2023-05-03T09:08:32.421279401Z",
+                    "created_by": "/bin/sh -c #(nop) CMD [\"/bin/bash\"]",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2023-05-03T09:08:33.033938679Z",
+                    "created_by": "/bin/sh -c rm -rf /var/log/*",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2023-05-03T09:08:33.714525603Z",
+                    "created_by": "/bin/sh -c mkdir -p /var/log/rhsm",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2023-05-03T09:08:33.71459378Z",
+                    "created_by": "/bin/sh -c #(nop) LABEL release=483",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2023-05-03T09:08:34.023695732Z",
+                    "created_by": "/bin/sh -c #(nop) ADD file:1fd5dee385a947603a9654c40af4c653a057e7e97efc952cdda238cd38f5b7f0 in /root/buildinfo/content_manifests/rhel-els-container-9.2-483.json ",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2023-05-03T09:08:34.316428337Z",
+                    "created_by": "/bin/sh -c #(nop) ADD file:1b27632b0b97e050860aa926902dc867d80d2e9764baa6d3d62c027fa940775e in /root/buildinfo/Dockerfile-rhel-els-9.2-483 ",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2023-05-03T09:08:34.316569035Z",
+                    "created_by": "/bin/sh -c #(nop) LABEL \"distribution-scope\"=\"public\" \"vendor\"=\"Red Hat, Inc.\" \"build-date\"=\"2023-05-03T08:55:51\" \"architecture\"=\"x86_64\" \"vcs-type\"=\"git\" \"vcs-ref\"=\"3c7648787434c99a05c37edd3f21b366cc2e2abf\" \"io.k8s.description\"=\"The Extended Life Base Image is designed and engineered to be the base layer for Red Hat extended life products. This base image is only supported for approved Red Hat products. This image is maintained by Red Hat and updated regularly.\" \"url\"=\"https://access.redhat.com/containers/#/registry.access.redhat.com/rhel-els/images/9.2-483\"",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2023-05-03T09:08:34.930190307Z",
+                    "created_by": "/bin/sh -c rm -f '/etc/yum.repos.d/repo-5b631.repo' '/etc/yum.repos.d/repo-165ac.repo' '/etc/yum.repos.d/repo-60436.repo'",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2023-05-03T09:08:35.529137536Z",
+                    "created_by": "/bin/sh -c rm -f /tmp/tls-ca-bundle.pem",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2023-05-03T09:08:37.583995823Z",
+                    "created_by": "/bin/sh -c mv -fZ /tmp/ubi.repo /etc/yum.repos.d/ubi.repo || :"
+               },
+               {
+                    "created": "2024-10-25T14:18:54.064772048Z",
+                    "created_by": "/bin/sh -c #(nop) ARG REMOTE_SOURCES",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2024-10-25T14:18:54.064857852Z",
+                    "created_by": "/bin/sh -c #(nop) ARG REMOTE_SOURCES REMOTE_SOURCES_DIR",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2024-10-25T14:18:54.626855861Z",
+                    "created_by": "|2 REMOTE_SOURCES=unpacked_remote_sources REMOTE_SOURCES_DIR=/remote-source /bin/sh -c mv -f /etc/yum.repos.d/ubi.repo /tmp || :",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2024-10-25T14:18:54.820672182Z",
+                    "created_by": "/bin/sh -c #(nop) ADD file:5b1f650e1376d79fa3a65df4a154ea5166def95154b52c1c1097dfd8fc7d58eb in /tmp/tls-ca-bundle.pem ",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2024-10-25T14:18:55.027972384Z",
+                    "created_by": "/bin/sh -c #(nop) ADD file:70194ca36afd7437f6e16471467fc3b9ca132a85816d7cbb91fe62f8b66fb9dd in /etc/yum.repos.d/ ",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2024-10-25T14:18:55.028538466Z",
+                    "created_by": "/bin/sh -c #(nop) ENV __doozer=update BUILD_RELEASE=202410241805.p0.gb45ea65.assembly.stream.el9 BUILD_VERSION=v4.15.0 OS_GIT_MAJOR=4 OS_GIT_MINOR=15 OS_GIT_PATCH=0 OS_GIT_TREE_STATE=clean OS_GIT_VERSION=4.15.0-202410241805.p0.gb45ea65.assembly.stream.el9 SOURCE_GIT_TREE_STATE=clean __doozer_group=openshift-4.15 __doozer_key=openshift-base-rhel9 __doozer_version=v4.15.0 ",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2024-10-25T14:18:55.028887992Z",
+                    "created_by": "/bin/sh -c #(nop) ENV __doozer=merge OS_GIT_COMMIT=b45ea65 OS_GIT_VERSION=4.15.0-202410241805.p0.gb45ea65.assembly.stream.el9-b45ea65 SOURCE_DATE_EPOCH=1654869156 SOURCE_GIT_COMMIT=b45ea65bf6606c558b1a18b92ad878f42a411894 SOURCE_GIT_TAG=b45ea65b SOURCE_GIT_URL=https://github.com/openshift-eng/ocp-build-data ",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2024-10-25T14:20:05.309545929Z",
+                    "created_by": "|2 REMOTE_SOURCES=unpacked_remote_sources REMOTE_SOURCES_DIR=/remote-source /bin/sh -c echo 'skip_missing_names_on_install=0' >> /etc/yum.conf  && yum update -y   && yum clean all",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2024-10-25T14:20:05.519770892Z",
+                    "created_by": "/bin/sh -c #(nop) COPY file:1aa8f973b3d6222839f1e30cef78728f074ac2444fd6bad06c0903b1c2593748 in /etc/yum.repos.d/ubi.repo ",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2024-10-25T14:20:05.520091269Z",
+                    "created_by": "/bin/sh -c #(nop) LABEL         name=\"openshift/base-rhel9\"         com.redhat.component=\"openshift-base-rhel9-container\"         io.openshift.maintainer.project=\"OCPBUGS\"         io.openshift.maintainer.component=\"Release\"         release=\"202410241805.p0.gb45ea65.assembly.stream.el9\"         io.openshift.build.commit.id=\"b45ea65bf6606c558b1a18b92ad878f42a411894\"         io.openshift.build.source-location=\"https://github.com/openshift-eng/ocp-build-data\"         io.openshift.build.commit.url=\"https://github.com/openshift-eng/ocp-build-data/commit/b45ea65bf6606c558b1a18b92ad878f42a411894\"         version=\"v4.15.0\"",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2024-10-25T14:20:05.717928468Z",
+                    "created_by": "/bin/sh -c #(nop) ADD file:86f1bc8f86dd810d01d06e698232b50fd8a348c66ebf23e69dcaa2c6c1d68b4a in /root/buildinfo/content_manifests/openshift-base-rhel9-container-v4.15.0-202410241805.p0.gb45ea65.assembly.stream.el9.json ",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2024-10-25T14:20:05.914600524Z",
+                    "created_by": "/bin/sh -c #(nop) ADD file:8e899f71f1affaa75060723f501729e827676c2fd9afefe87c3ab9c8e13e10a2 in /root/buildinfo/Dockerfile-openshift-base-rhel9-v4.15.0-202410241805.p0.gb45ea65.assembly.stream.el9 ",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2024-10-25T14:20:05.914794486Z",
+                    "created_by": "/bin/sh -c #(nop) LABEL \"com.redhat.license_terms\"=\"https://www.redhat.com/agreements\" \"distribution-scope\"=\"public\" \"vendor\"=\"Red Hat, Inc.\" \"build-date\"=\"2024-10-25T14:17:27\" \"architecture\"=\"x86_64\" \"vcs-type\"=\"git\" \"vcs-ref\"=\"d703e19e6fa2141486040ef53b37bc9fe4dffa25\" \"url\"=\"https://access.redhat.com/containers/#/registry.access.redhat.com/openshift/base-rhel9/images/v4.15.0-202410241805.p0.gb45ea65.assembly.stream.el9\"",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2024-10-25T14:20:06.46345764Z",
+                    "created_by": "|2 REMOTE_SOURCES=unpacked_remote_sources REMOTE_SOURCES_DIR=/remote-source /bin/sh -c rm -f '/etc/yum.repos.d/signed-4f337.repo'",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2024-10-25T14:20:07.007395198Z",
+                    "created_by": "|2 REMOTE_SOURCES=unpacked_remote_sources REMOTE_SOURCES_DIR=/remote-source /bin/sh -c rm -f /tmp/tls-ca-bundle.pem",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2024-10-25T14:20:08.662374244Z",
+                    "created_by": "|2 REMOTE_SOURCES=unpacked_remote_sources REMOTE_SOURCES_DIR=/remote-source /bin/sh -c mv -fZ /tmp/ubi.repo /etc/yum.repos.d/ubi.repo || :",
+                    "comment": "FROM registry-proxy.engineering.redhat.com/rh-osbs/rhel-els@sha256:cf1bc434a99f7fc6993ad728cbceb72528f031d0c93ea3d183f55728710c6c76"
+               },
+               {
+                    "created": "2024-11-20T02:34:29.504301804Z",
+                    "created_by": "/bin/sh -c #(nop) ARG REMOTE_SOURCES",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2024-11-20T02:34:29.504387366Z",
+                    "created_by": "/bin/sh -c #(nop) ARG REMOTE_SOURCES REMOTE_SOURCES_DIR",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2024-11-20T02:34:30.063317294Z",
+                    "created_by": "|2 REMOTE_SOURCES=unpacked_remote_sources REMOTE_SOURCES_DIR=/remote-source /bin/sh -c mv -f /etc/yum.repos.d/ubi.repo /tmp || :",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2024-11-20T02:34:30.288096021Z",
+                    "created_by": "/bin/sh -c #(nop) ADD file:df13b6a4fdeac4626ab7cd7e99d16d30edc6e3e5441295ae7691bee26604a5b1 in /tmp/tls-ca-bundle.pem ",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2024-11-20T02:34:30.50581644Z",
+                    "created_by": "/bin/sh -c #(nop) ADD file:065dd643eaf18813d828ca72651d803a93ce45266005d1a353132b4020a0e384 in /etc/yum.repos.d/ ",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2024-11-20T02:34:30.506095189Z",
+                    "created_by": "/bin/sh -c #(nop) ENV __doozer=update BUILD_RELEASE=202411190205.p0.g87c23b5.assembly.stream.el9 BUILD_VERSION=v4.15.0 OS_GIT_MAJOR=4 OS_GIT_MINOR=15 OS_GIT_PATCH=0 OS_GIT_TREE_STATE=clean OS_GIT_VERSION=4.15.0-202411190205.p0.g87c23b5.assembly.stream.el9 SOURCE_GIT_TREE_STATE=clean __doozer_group=openshift-4.15 __doozer_key=openshift-enterprise-base-rhel9 __doozer_version=v4.15.0 ",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2024-11-20T02:34:30.50636578Z",
+                    "created_by": "/bin/sh -c #(nop) ENV __doozer=merge OS_GIT_COMMIT=87c23b5 OS_GIT_VERSION=4.15.0-202411190205.p0.g87c23b5.assembly.stream.el9-87c23b5 SOURCE_DATE_EPOCH=1729650183 SOURCE_GIT_COMMIT=87c23b5aa611556ff5013822c7779e6c7551a0f0 SOURCE_GIT_TAG=87c23b5 SOURCE_GIT_URL=https://github.com/openshift/images ",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2024-11-20T02:35:24.194684135Z",
+                    "created_by": "|2 REMOTE_SOURCES=unpacked_remote_sources REMOTE_SOURCES_DIR=/remote-source /bin/sh -c INSTALL_PKGS=\"       which tar wget hostname shadow-utils       socat findutils lsof bind-utils gzip       procps-ng rsync iproute diffutils python3       python-unversioned-command\" &&     echo 'skip_missing_names_on_install=0' >> /etc/yum.conf &&     dnf install -y --nodocs --setopt=install_weak_deps=False ${INSTALL_PKGS} &&     dnf clean all && rm -rf /var/cache/*",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2024-11-20T02:35:24.194805911Z",
+                    "created_by": "/bin/sh -c #(nop) ENV GODEBUG=x509ignoreCN=0,madvdontneed=1",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2024-11-20T02:35:24.195013494Z",
+                    "created_by": "/bin/sh -c #(nop) LABEL         io.k8s.display-name=\"OpenShift Container Platform RHEL 9 Base\"         io.k8s.description=\"This is the base image from which all OpenShift Container Platform images inherit.\"         License=\"GPLv2+\"         io.openshift.tags=\"openshift,base\"         vendor=\"Red Hat\"         name=\"openshift/openshift-enterprise-base-rhel9\"         com.redhat.component=\"openshift-enterprise-base-rhel9-container\"         io.openshift.maintainer.project=\"OCPBUGS\"         io.openshift.maintainer.component=\"Release\"         release=\"202411190205.p0.g87c23b5.assembly.stream.el9\"         io.openshift.build.commit.id=\"87c23b5aa611556ff5013822c7779e6c7551a0f0\"         io.openshift.build.source-location=\"https://github.com/openshift/images\"         io.openshift.build.commit.url=\"https://github.com/openshift/images/commit/87c23b5aa611556ff5013822c7779e6c7551a0f0\"         version=\"v4.15.0\"",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2024-11-20T02:35:24.389688738Z",
+                    "created_by": "/bin/sh -c #(nop) ADD file:3a01042f37ede7fd1ef35cb6e220fd2b411973f525d8071eb3f72b93287901f8 in /root/buildinfo/content_manifests/openshift-enterprise-base-rhel9-container-v4.15.0-202411190205.p0.g87c23b5.assembly.stream.el9.json ",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2024-11-20T02:35:24.585987901Z",
+                    "created_by": "/bin/sh -c #(nop) ADD file:1fe23d67af9c3c943a07cbd5e04fee5b13aa17e72426d1b33633620c17d3bf8d in /root/buildinfo/Dockerfile-openshift-openshift-enterprise-base-rhel9-v4.15.0-202411190205.p0.g87c23b5.assembly.stream.el9 ",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2024-11-20T02:35:24.586158309Z",
+                    "created_by": "/bin/sh -c #(nop) LABEL \"com.redhat.license_terms\"=\"https://www.redhat.com/agreements\" \"distribution-scope\"=\"public\" \"vendor\"=\"Red Hat, Inc.\" \"build-date\"=\"2024-11-20T02:32:50\" \"architecture\"=\"x86_64\" \"vcs-type\"=\"git\" \"vcs-ref\"=\"6f6c6336bfb819978d81da6f4438f60ee0125a13\" \"description\"=\"This is the base image from which all OpenShift Container Platform images inherit.\" \"url\"=\"https://access.redhat.com/containers/#/registry.access.redhat.com/openshift/openshift-enterprise-base-rhel9/images/v4.15.0-202411190205.p0.g87c23b5.assembly.stream.el9\"",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2024-11-20T02:35:25.173913548Z",
+                    "created_by": "|2 REMOTE_SOURCES=unpacked_remote_sources REMOTE_SOURCES_DIR=/remote-source /bin/sh -c rm -f '/etc/yum.repos.d/signed-047ca.repo'",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2024-11-20T02:35:25.754562746Z",
+                    "created_by": "|2 REMOTE_SOURCES=unpacked_remote_sources REMOTE_SOURCES_DIR=/remote-source /bin/sh -c rm -f /tmp/tls-ca-bundle.pem",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2024-11-20T02:35:26.576662865Z",
+                    "created_by": "|2 REMOTE_SOURCES=unpacked_remote_sources REMOTE_SOURCES_DIR=/remote-source /bin/sh -c mv -fZ /tmp/ubi.repo /etc/yum.repos.d/ubi.repo || :",
+                    "comment": "FROM registry-proxy.engineering.redhat.com/rh-osbs/openshift-base-rhel9@sha256:adaa880b43914193f04d3ed04661cb18db4908744bc95397f3d7d2df280197a6"
+               },
+               {
+                    "created": "2025-01-21T02:37:00.163930581Z",
+                    "created_by": "/bin/sh -c #(nop) ARG REMOTE_SOURCES",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2025-01-21T02:37:00.163995093Z",
+                    "created_by": "/bin/sh -c #(nop) ARG REMOTE_SOURCES REMOTE_SOURCES_DIR",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2025-01-21T02:37:00.663467831Z",
+                    "created_by": "|2 REMOTE_SOURCES=unpacked_remote_sources REMOTE_SOURCES_DIR=/remote-source /bin/sh -c mv -f /etc/yum.repos.d/ubi.repo /tmp || :",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2025-01-21T02:37:00.820409112Z",
+                    "created_by": "/bin/sh -c #(nop) ADD file:df13b6a4fdeac4626ab7cd7e99d16d30edc6e3e5441295ae7691bee26604a5b1 in /tmp/tls-ca-bundle.pem ",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2025-01-21T02:37:00.9800831Z",
+                    "created_by": "/bin/sh -c #(nop) ADD file:45293bc1355dc9dbea3db4a6ba4abf138bf2717fc14bdd0e8887c3f187c58dea in /etc/yum.repos.d/ ",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2025-01-21T02:37:00.980303809Z",
+                    "created_by": "/bin/sh -c #(nop) ENV __doozer=update BUILD_RELEASE=202501210207.p0.gb500cb3.assembly.stream.el9 BUILD_VERSION=v4.15.0 OS_GIT_MAJOR=4 OS_GIT_MINOR=15 OS_GIT_PATCH=0 OS_GIT_TREE_STATE=clean OS_GIT_VERSION=4.15.0-202501210207.p0.gb500cb3.assembly.stream.el9 SOURCE_GIT_TREE_STATE=clean __doozer_group=openshift-4.15 __doozer_key=operator-registry __doozer_version=v4.15.0 ",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2025-01-21T02:37:00.980490131Z",
+                    "created_by": "/bin/sh -c #(nop) ENV __doozer=merge OS_GIT_COMMIT=b500cb3 OS_GIT_VERSION=4.15.0-202501210207.p0.gb500cb3.assembly.stream.el9-b500cb3 SOURCE_DATE_EPOCH=1737424144 SOURCE_GIT_COMMIT=b500cb365122dd2c1c0234c5227723bb9d36c2f1 SOURCE_GIT_TAG=b500cb365 SOURCE_GIT_URL=https://github.com/openshift/operator-framework-olm ",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2025-01-21T02:37:02.919316078Z",
+                    "created_by": "/bin/sh -c #(nop) COPY multi:156d5e20ce4303a623944116abbc0caa17fce5113228848ff45d839a9e255fcf in /bin/registry/ ",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2025-01-21T02:37:03.136771337Z",
+                    "created_by": "/bin/sh -c #(nop) COPY file:2457e3809a2fa876510a9b9e52349218d46aeed699a59a201fb3a60fd8c97bc7 in /bin/grpc_health_probe ",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2025-01-21T02:37:03.628088238Z",
+                    "created_by": "|2 REMOTE_SOURCES=unpacked_remote_sources REMOTE_SOURCES_DIR=/remote-source /bin/sh -c ln -s /bin/registry/* /bin",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2025-01-21T02:37:04.1962722Z",
+                    "created_by": "|2 REMOTE_SOURCES=unpacked_remote_sources REMOTE_SOURCES_DIR=/remote-source /bin/sh -c mkdir /registry",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2025-01-21T02:37:04.692924046Z",
+                    "created_by": "|2 REMOTE_SOURCES=unpacked_remote_sources REMOTE_SOURCES_DIR=/remote-source /bin/sh -c chgrp -R 0 /registry &&     chmod -R g+rwx /registry",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2025-01-21T02:37:04.727878816Z",
+                    "created_by": "/bin/sh -c #(nop) WORKDIR /registry",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2025-01-21T02:37:04.762671858Z",
+                    "created_by": "/bin/sh -c #(nop) USER 1001",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2025-01-21T02:37:04.796599214Z",
+                    "created_by": "/bin/sh -c #(nop) EXPOSE 50051",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2025-01-21T02:37:04.831510746Z",
+                    "created_by": "/bin/sh -c #(nop) ENTRYPOINT [\"/bin/registry-server\"]",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2025-01-21T02:37:04.866812803Z",
+                    "created_by": "/bin/sh -c #(nop) CMD [\"--database\", \"/bundles.db\"]",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2025-01-21T02:37:04.904662805Z",
+                    "created_by": "/bin/sh -c #(nop) LABEL         io.k8s.display-name=\"OpenShift Operator Registry\"         io.k8s.description=\"This is a component of OpenShift Operator Lifecycle Manager and is the base for operator catalog API containers.\"         maintainer=\"Odin Team <aos-odin@redhat.com>\"         summary=\"Operator Registry runs in a Kubernetes or OpenShift cluster to provide operator catalog data to Operator Lifecycle Manager.\"         name=\"openshift/ose-operator-registry-rhel9\"         com.redhat.component=\"operator-registry-container\"         io.openshift.maintainer.project=\"OCPBUGS\"         io.openshift.maintainer.component=\"OLM / Registry\"         release=\"202501210207.p0.gb500cb3.assembly.stream.el9\"         io.openshift.build.commit.id=\"b500cb365122dd2c1c0234c5227723bb9d36c2f1\"         io.openshift.build.source-location=\"https://github.com/openshift/operator-framework-olm\"         io.openshift.build.commit.url=\"https://github.com/openshift/operator-framework-olm/commit/b500cb365122dd2c1c0234c5227723bb9d36c2f1\"         version=\"v4.15.0\"",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2025-01-21T02:37:05.099526895Z",
+                    "created_by": "/bin/sh -c #(nop) ADD file:95df3a78d37e85be4189dc64a7bb374d9c20abcaf4e639fd876a04e7b3a3d9a0 in /root/buildinfo/content_manifests/operator-registry-container-v4.15.0-202501210207.p0.gb500cb3.assembly.stream.el9.json ",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2025-01-21T02:37:05.294992657Z",
+                    "created_by": "/bin/sh -c #(nop) ADD file:d7b613fd0083628e3ed550f5af4bad6ee93a64c5a79dac1b4735bc688af2c64f in /root/buildinfo/Dockerfile-openshift-ose-operator-registry-rhel9-v4.15.0-202501210207.p0.gb500cb3.assembly.stream.el9 ",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2025-01-21T02:37:05.335278643Z",
+                    "created_by": "/bin/sh -c #(nop) LABEL \"com.redhat.license_terms\"=\"https://www.redhat.com/agreements\" \"distribution-scope\"=\"public\" \"vendor\"=\"Red Hat, Inc.\" \"build-date\"=\"2025-01-21T02:24:22\" \"architecture\"=\"x86_64\" \"vcs-type\"=\"git\" \"vcs-ref\"=\"6ab848574853a789c6f8a7efa3b6e788d98f9364\" \"description\"=\"This is a component of OpenShift Operator Lifecycle Manager and is the base for operator catalog API containers.\" \"url\"=\"https://access.redhat.com/containers/#/registry.access.redhat.com/openshift/ose-operator-registry-rhel9/images/v4.15.0-202501210207.p0.gb500cb3.assembly.stream.el9\"",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2025-01-21T02:37:05.476673604Z",
+                    "created_by": "/bin/sh -c #(nop) USER root",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2025-01-21T02:37:06.113279126Z",
+                    "created_by": "|2 REMOTE_SOURCES=unpacked_remote_sources REMOTE_SOURCES_DIR=/remote-source /bin/sh -c rm -f '/etc/yum.repos.d/signed-e8f6c.repo'",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2025-01-21T02:37:06.795006616Z",
+                    "created_by": "|2 REMOTE_SOURCES=unpacked_remote_sources REMOTE_SOURCES_DIR=/remote-source /bin/sh -c rm -f /tmp/tls-ca-bundle.pem",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2025-01-21T02:37:06.832898939Z",
+                    "created_by": "/bin/sh -c #(nop) USER 1001",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2025-01-21T02:37:06.977300405Z",
+                    "created_by": "/bin/sh -c #(nop) USER root",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2025-01-21T02:37:07.629574407Z",
+                    "created_by": "|2 REMOTE_SOURCES=unpacked_remote_sources REMOTE_SOURCES_DIR=/remote-source /bin/sh -c mv -fZ /tmp/ubi.repo /etc/yum.repos.d/ubi.repo || :",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2025-01-21T02:37:09.298734054Z",
+                    "created_by": "/bin/sh -c #(nop) USER 1001",
+                    "comment": "FROM registry-proxy.engineering.redhat.com/rh-osbs/openshift-openshift-enterprise-base-rhel9@sha256:aed7d3da9401f2b3579b1983030a8781de9a205fed55dd68e8aac01b7a75f6cd"
+               },
+               {
+                    "created": "2025-02-12T00:07:13.827175666Z",
+                    "created_by": "/bin/sh -c #(nop) ENTRYPOINT [\"/bin/opm\"]",
+                    "comment": "FROM registry.redhat.io/openshift4/ose-operator-registry-rhel9:v4.15",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2025-02-12T00:07:13.845923285Z",
+                    "created_by": "/bin/sh -c #(nop) CMD [\"serve\", \"/configs\", \"--cache-dir=/tmp/cache\"]",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2025-02-12T00:07:13.926430414Z",
+                    "created_by": "/bin/sh -c #(nop) COPY dir:4972e77bf4dc998aa9a0f17755a1565233bed84c9cd9eee30f911d6fbc068087 in /configs ",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2025-02-12T00:07:14.365589985Z",
+                    "created_by": "/bin/sh -c [\"/bin/opm\", \"serve\", \"/configs\", \"--cache-dir=/tmp/cache\", \"--cache-only\"]",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2025-02-12T00:07:14.382215116Z",
+                    "created_by": "/bin/sh -c #(nop) LABEL operators.operatorframework.io.bundle.mediatype.v1=registry+v1",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2025-02-12T00:07:14.398124874Z",
+                    "created_by": "/bin/sh -c #(nop) LABEL operators.operatorframework.io.bundle.manifests.v1=manifests/",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2025-02-12T00:07:14.414050809Z",
+                    "created_by": "/bin/sh -c #(nop) LABEL operators.operatorframework.io.bundle.metadata.v1=metadata/",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2025-02-12T00:07:14.430283304Z",
+                    "created_by": "/bin/sh -c #(nop) LABEL operators.operatorframework.io.bundle.package.v1=rhdh-operator",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2025-02-12T00:07:14.446446985Z",
+                    "created_by": "/bin/sh -c #(nop) LABEL operators.operatorframework.io.bundle.channels.v1=fast,fast-1.5",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2025-02-12T00:07:14.462877821Z",
+                    "created_by": "/bin/sh -c #(nop) LABEL operators.operatorframework.io.metrics.builder=operator-sdk-v1.33.1",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2025-02-12T00:07:14.478561329Z",
+                    "created_by": "/bin/sh -c #(nop) LABEL operators.operatorframework.io.metrics.mediatype.v1=metrics+v1",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2025-02-12T00:07:14.49421665Z",
+                    "created_by": "/bin/sh -c #(nop) LABEL operators.operatorframework.io.metrics.project_layout=go.kubebuilder.io/v3",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2025-02-12T00:07:14.512252531Z",
+                    "created_by": "/bin/sh -c #(nop) LABEL operators.operatorframework.io.index.configs.v1=/configs",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2025-02-12T00:07:14.528682772Z",
+                    "created_by": "/bin/sh -c #(nop) LABEL       version=\"1.5\"       license=\"ASLv2\"       maintainer=\"RHDH Team <rhdh-bot@redhat.com>\"       vendor=\"Red Hat, Inc.\"       konflux.additional-tags=\"1.5-v4.15-x86_64,next-v4.15-x86_64\"       distribution-scope=\"public\"       url=\"https://red.ht/rhdh\"",
+                    "empty_layer": true
+               },
+               {
+                    "created": "2025-02-12T00:07:15.000986227Z",
+                    "created_by": "/bin/sh -c #(nop) LABEL \"build-date\"=\"2025-02-12T00:07:10\" \"architecture\"=\"x86_64\" \"vcs-type\"=\"git\" \"vcs-ref\"=\"1792f76dd92a253e9c98d104fbf82b831e9943bf\" \"quay.expires-after\"=\"5d\""
+               }
+          ],
+          "NamesHistory": [
+               "quay.io/rhdh/iib:1.5-v4.15-x86_64"
+          ]
+     }
+]

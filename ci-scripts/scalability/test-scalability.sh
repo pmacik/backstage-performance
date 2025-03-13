@@ -112,27 +112,27 @@ for w in "${workers[@]}"; do
                                 echo "/// Setting up RHDH for scalability test ///"
                                 echo
                                 set -x
-                                export RHDH_DEPLOYMENT_REPLICAS="$r"
-                                export RHDH_DB_REPLICAS="$r"
-                                export RHDH_DB_STORAGE="$s"
-                                export RHDH_RESOURCES_CPU_REQUESTS="$cr"
-                                export RHDH_RESOURCES_CPU_LIMITS="$cl"
-                                export RHDH_RESOURCES_MEMORY_REQUESTS="$mr"
-                                export RHDH_RESOURCES_MEMORY_LIMITS="$ml"
-                                export RHDH_KEYCLOAK_REPLICAS="${RHDH_KEYCLOAK_REPLICAS:-$r}"
-                                export BACKSTAGE_USER_COUNT=$bu
-                                export GROUP_COUNT=$bg
-                                export RBAC_POLICY_SIZE="$rbs"
-                                export WORKERS=$w
-                                export API_COUNT=$a
-                                export COMPONENT_COUNT=$c
+                                rhdh_setup_env="RHDH_DEPLOYMENT_REPLICAS=${RHDH_DEPLOYMENT_REPLICAS:-$r} \
+RHDH_DB_REPLICAS=${RHDH_DB_REPLICAS:-$r} \
+RHDH_DB_STORAGE=${RHDH_DB_STORAGE:-$s} \
+RHDH_RESOURCES_CPU_REQUESTS=${RHDH_RESOURCES_CPU_REQUESTS:-$cr} \
+RHDH_RESOURCES_CPU_LIMITS=${RHDH_RESOURCES_CPU_LIMITS:-$cl} \
+RHDH_RESOURCES_MEMORY_REQUESTS=${RHDH_RESOURCES_MEMORY_REQUESTS:-$mr} \
+RHDH_RESOURCES_MEMORY_LIMITS=${RHDH_RESOURCES_MEMORY_LIMITS:-$ml} \
+RHDH_KEYCLOAK_REPLICAS=${RHDH_KEYCLOAK_REPLICAS:-$r} \
+BACKSTAGE_USER_COUNT=${BACKSTAGE_USER_COUNT:-$bu} \
+GROUP_COUNT=${GROUP_COUNT:-$bg} \
+RBAC_POLICY_SIZE=${RBAC_POLICY_SIZE:-$rbs} \
+WORKERS=${WORKERS:-$w} \
+API_COUNT=${API_COUNT:-$a} \
+COMPONENT_COUNT=${COMPONENT_COUNT:-$c}"
                                 index="${r}r-db_${s}-${bu}bu-${bg}bg-${rbs}rbs-${w}w-${cr}cr-${cl}cl-${mr}mr-${ml}ml-${a}a-${c}c"
                                 set +x
                                 oc login "$OPENSHIFT_API" -u "$OPENSHIFT_USERNAME" -p "$OPENSHIFT_PASSWORD" --insecure-skip-tls-verify=true
-                                make clean-local undeploy-rhdh
+                                /bin/bash -c "$rhdh_setup_env make clean-local undeploy-rhdh"
                                 setup_artifacts="$SCALABILITY_ARTIFACTS/$index/setup"
                                 mkdir -p "$setup_artifacts"
-                                ARTIFACT_DIR=$setup_artifacts ./ci-scripts/setup.sh |& tee "$setup_artifacts/setup.log"
+                                /bin/bash -c "$rhdh_setup_env ARTIFACT_DIR=$setup_artifacts ./ci-scripts/setup.sh |& tee $setup_artifacts/setup.log"
                                 wait_for_indexing |& tee "$setup_artifacts/after-setup-search.log"
                                 for au_sr in "${active_users_spawn_rate[@]}"; do
                                     IFS=":" read -ra tokens <<<"${au_sr}"
@@ -142,17 +142,17 @@ for w in "${workers[@]}"; do
                                     echo "/// Running the scalability test ///"
                                     echo
                                     set -x
-                                    export SCENARIO=${SCENARIO:-search-catalog}
-                                    export USERS="${au}"
-                                    export DURATION=${DURATION:-5m}
-                                    export SPAWN_RATE="${sr}"
+                                    scalability_env="SCENARIO=${SCENARIO:-search-catalog} \
+USERS=${au} \
+DURATION=${DURATION:-5m} \
+SPAWN_RATE=${sr}"
                                     set +x
-                                    make clean
+                                    /bin/bash -c "$rhdh_setup_env $scalability_env make clean"
                                     test_artifacts="$SCALABILITY_ARTIFACTS/$index/test/${au}u"
                                     mkdir -p "$test_artifacts"
                                     wait_for_indexing |& tee "$test_artifacts/before-test-search.log"
-                                    ARTIFACT_DIR=$test_artifacts ./ci-scripts/test.sh |& tee "$test_artifacts/test.log"
-                                    ARTIFACT_DIR=$test_artifacts ./ci-scripts/collect-results.sh |& tee "$test_artifacts/collect-results.log"
+                                    /bin/bash -c "$rhdh_setup_env $scalability_env ARTIFACT_DIR=$test_artifacts ./ci-scripts/test.sh |& tee $test_artifacts/test.log"
+                                    /bin/bash -c "$rhdh_setup_env $scalability_env ARTIFACT_DIR=$test_artifacts ./ci-scripts/collect-results.sh |& tee $test_artifacts/collect-results.log"
                                 done
                             done
                         done

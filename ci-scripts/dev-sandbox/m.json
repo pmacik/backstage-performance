@@ -1,0 +1,40 @@
+{
+  "groupVersionKind": {
+    "group": "rhdh.redhat.com",
+    "kind": "Backstage",
+    "version": "v1alpha3",
+    "labelsFromPath": {
+      "name": [
+        "metadata",
+        "name"
+      ],
+      "namespace": [
+        "metadata",
+        "namespace"
+      ]
+    },
+    "metrics": [
+      {
+        "name": "backstage_status",
+        "help": "Backstage Status Conditions",
+        "each": {
+          "type": "Gauge",
+          "gauge": {
+            "path": [
+              "status",
+              "conditions"
+            ],
+            "labelsFromPath": {
+              "type": [
+                "type"
+              ]
+            },
+            "valueFrom": [
+              "status"
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

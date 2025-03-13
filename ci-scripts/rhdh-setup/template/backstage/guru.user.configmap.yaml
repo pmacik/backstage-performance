@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: guru-user
+data:
+  guru-user.yaml: |
+    ---
+    apiVersion: backstage.io/v1alpha1
+    kind: User
+    metadata:
+      name: guru
+    spec:
+      profile:
+        email: guru@test.com
+      memberOf: []
