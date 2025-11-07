@@ -25,9 +25,9 @@ catalog:
           frequency: 
             hours: 2
           timeout: 
-            minutes: 1
+            minutes: 2
           initialDelay: 
-            seconds: 15
+            seconds: 45
 techdocs:
   builder: local
   generator:
