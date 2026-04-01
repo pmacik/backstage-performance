@@ -785,7 +785,7 @@ install_rhdh_with_helm() {
     fi
 
     log_info "Setting up relaxed liveness/readiness probes for large LDAP sync tolerance"
-    failureThreshold=$(bc -l <<<"scale=0; ($API_COUNT + $COMPONENT_COUNT + $BACKSTAGE_USER_COUNT + $GROUP_COUNT) / 2000")
+    failureThreshold=$(bc -l <<<"scale=0; ($API_COUNT + $COMPONENT_COUNT + $BACKSTAGE_USER_COUNT + $GROUP_COUNT) / 1000")
     yq -i '.upstream.backstage.readinessProbe |= {"httpGet":{"path":"/healthcheck","port":7007,"scheme":"HTTP"},"initialDelaySeconds":60,"timeoutSeconds":5,"periodSeconds":60,"successThreshold":1,"failureThreshold":'"$failureThreshold"'}' "$TMP_DIR/chart-values.yaml"
     yq -i '.upstream.backstage.livenessProbe |= {"httpGet":{"path":"/healthcheck","port":7007,"scheme":"HTTP"},"initialDelaySeconds":60,"timeoutSeconds":5,"periodSeconds":60,"successThreshold":1,"failureThreshold":'"$failureThreshold"'}' "$TMP_DIR/chart-values.yaml"
 
