@@ -9,7 +9,6 @@ source "${SCRIPT_DIR}/common.sh"
 
 export TMP_DIR WORKDIR
 
-POPULATION_CONCURRENCY=${POPULATION_CONCURRENCY:-10}
 COMPONENT_SHARD_SIZE=${COMPONENT_SHARD_SIZE:-500}
 
 TMP_DIR=${TMP_DIR:-$(python3 -c 'import os, sys; print(os.path.realpath(sys.argv[1]))' .tmp)}
