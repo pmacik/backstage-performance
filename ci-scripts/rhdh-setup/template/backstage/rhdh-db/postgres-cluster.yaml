@@ -9,9 +9,13 @@ spec:
       postgresql:
         parameters:
           max_connections: "${RHDH_DB_MAX_CONNECTIONS}"
+          shared_preload_libraries: pg_stat_statements
         pg_hba:
           - "host all all 0.0.0.0/0 md5"
           - "host all all ::0/0 md5"
+          - "local all all trust"
+          - "host all all ::1/128 md5"
+          - "host replication all all md5"
   instances:
     - name: primary
       replicas: ${RHDH_DB_REPLICAS}
