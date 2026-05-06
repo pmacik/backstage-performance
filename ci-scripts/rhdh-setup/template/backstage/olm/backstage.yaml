@@ -1,4 +1,4 @@
-apiVersion: rhdh.redhat.com/v1alpha3
+apiVersion: rhdh.redhat.com/v1alpha5
 kind: Backstage
 metadata:
   name: developer-hub
@@ -50,8 +50,8 @@ spec:
           name: rhdh-backend-secret
     imagePullSecrets:
       - rhdh-pull-secret
-    replicas: ${RHDH_DEPLOYMENT_REPLICAS}
     route:
       enabled: true
   database:
-    enableLocalDb: true
+    enableLocalDb: false
+    authSecretName: rhdh-db-credentials

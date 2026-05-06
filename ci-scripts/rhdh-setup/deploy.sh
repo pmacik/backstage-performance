@@ -57,6 +57,7 @@ export RHDH_OLM_INDEX_IMAGE="${RHDH_OLM_INDEX_IMAGE:-quay.io/rhdh/iib:${RHDH_BAS
 export RHDH_OLM_CHANNEL=${RHDH_OLM_CHANNEL:-fast}
 export RHDH_OLM_OPERATOR_PACKAGE=${RHDH_OLM_OPERATOR_PACKAGE:-rhdh}
 export RHDH_OLM_WATCH_EXT_CONF=${RHDH_OLM_WATCH_EXT_CONF:-true}
+export RHDH_OLM_ENABLE_CACHE_LABEL_FILTER=${RHDH_OLM_ENABLE_CACHE_LABEL_FILTER:-false}
 export RHDH_OLM_OPERATOR_RESOURCES_CPU_REQUESTS=${RHDH_OLM_OPERATOR_RESOURCES_CPU_REQUESTS:-}
 export RHDH_OLM_OPERATOR_RESOURCES_CPU_LIMITS=${RHDH_OLM_OPERATOR_RESOURCES_CPU_LIMITS:-}
 export RHDH_OLM_OPERATOR_RESOURCES_MEMORY_REQUESTS=${RHDH_OLM_OPERATOR_RESOURCES_MEMORY_REQUESTS:-}
@@ -545,7 +546,7 @@ setup_rhdh_db() {
 
     POSTGRES_PASSWORD=$($clin get secret "rhdh-postgresql-cluster-pguser-$POSTGRES_USER" -o jsonpath='{.data.password}' | base64 -d)
 
-    $clin create secret generic rhdh-db-credentials --from-literal=POSTGRES_USER="$POSTGRES_USER" --from-literal=POSTGRES_PASSWORD="$POSTGRES_PASSWORD" --from-literal=POSTGRES_DATABASE_NAME="$POSTGRES_DATABASE_NAME" --from-literal=POSTGRES_HOST="$POSTGRES_HOST" --from-literal=POSTGRES_PORT="$POSTGRES_PORT" --dry-run=client -o yaml | $clin apply -f -
+    $clin create secret generic rhdh-db-credentials --from-literal=POSTGRES_USER="$POSTGRES_USER" --from-literal=POSTGRES_PASSWORD="$POSTGRES_PASSWORD" --from-literal=POSTGRESQL_ADMIN_PASSWORD="$POSTGRES_PASSWORD" --from-literal=POSTGRES_DATABASE_NAME="$POSTGRES_DATABASE_NAME" --from-literal=POSTGRES_HOST="$POSTGRES_HOST" --from-literal=POSTGRES_PORT="$POSTGRES_PORT" --dry-run=client -o yaml | $clin apply -f -
 
     if ${ENABLE_ORCHESTRATOR}; then
         POSTGRES_SONATAFLOW_PASSWORD=$($clin get secret "rhdh-postgresql-cluster-pguser-sonataflow" -o jsonpath='{.data.password}' | base64 -d)
@@ -821,17 +822,24 @@ install_rhdh_with_helm() {
 
 install_rhdh_with_olm() {
     $clin create secret generic rhdh-backend-secret --from-literal=BACKEND_SECRET="$(mktemp -u XXXXXXXXXXX)"
-    mark_resource_for_rhdh secret rhdh-backend-secret
     $clin create cm app-config-backend-secret --from-file=template/backstage/olm/app-config.rhdh.backend-secret.yaml
-    mark_resource_for_rhdh cm app-config-backend-secret
     cp template/backstage/olm/dynamic-plugins.configmap.yaml "$TMP_DIR/dynamic-plugins.configmap.yaml"
     if ${ENABLE_RBAC}; then
         cat template/backstage/olm/rbac-plugin-patch.yaml >>"$TMP_DIR/dynamic-plugins.configmap.yaml"
     fi
     $clin apply -f "$TMP_DIR/dynamic-plugins.configmap.yaml"
+
+    mark_resource_for_rhdh cm app-config-rhdh
+    if [ "$AUTH_PROVIDER" == "keycloak" ]; then
+        mark_resource_for_rhdh secret keycloak-client-secret-backstage
+    fi
+    mark_resource_for_rhdh secret rhdh-db-credentials
+    mark_resource_for_rhdh secret rhdh-backend-secret
+    mark_resource_for_rhdh cm app-config-backend-secret
     mark_resource_for_rhdh cm dynamic-plugins-rhdh
+
     set -x
-    OLM_CHANNEL="${RHDH_OLM_CHANNEL}" UPSTREAM_IIB="${RHDH_OLM_INDEX_IMAGE}" NAMESPACE_SUBSCRIPTION="${RHDH_OPERATOR_NAMESPACE}" WATCH_EXT_CONF="${RHDH_OLM_WATCH_EXT_CONF}" ./install-rhdh-catalog-source.sh --install-operator "${RHDH_OLM_OPERATOR_PACKAGE:-rhdh}"
+    OLM_CHANNEL="${RHDH_OLM_CHANNEL}" UPSTREAM_IIB="${RHDH_OLM_INDEX_IMAGE}" NAMESPACE_SUBSCRIPTION="${RHDH_OPERATOR_NAMESPACE}" WATCH_EXT_CONF="${RHDH_OLM_WATCH_EXT_CONF}" ENABLE_CACHE_LABEL_FILTER="${RHDH_OLM_ENABLE_CACHE_LABEL_FILTER}" ./install-rhdh-catalog-source.sh --install-operator "${RHDH_OLM_OPERATOR_PACKAGE:-rhdh}"
     set +x
     wait_for_crd backstages.rhdh.redhat.com
 
@@ -851,7 +859,6 @@ install_rhdh_with_olm() {
     fi
     $clin apply -f "$backstage_yaml"
 
-    wait_to_start statefulset "backstage-psql-developer-hub" 300 300
     wait_to_start deployment "backstage-developer-hub" 300 300
     return $?
 }
