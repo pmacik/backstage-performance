@@ -386,6 +386,9 @@ p, role:default/a, catalog.location.create, create, allow
 p, role:default/a, catalog.location.read, read, allow
 p, role:default/a, lightspeed.chat.read, read, allow
 p, role:default/a, lightspeed.chat.create, create, allow
+p, role:default/a, adoption-insights.events.read, read, allow
+p, role:default/a, intelligent-assistant.chat.access, use, allow	
+p, role:default/a, intelligent-assistant.chat.use, use, allow
 g, user:default/guru, role:default/a
 g, user:development/guest, role:default/a
 EOF

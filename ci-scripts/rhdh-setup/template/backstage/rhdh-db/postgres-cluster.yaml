@@ -3,8 +3,8 @@ kind: PostgresCluster
 metadata:
   name: rhdh-postgresql-cluster
 spec:
-  image: registry.connect.redhat.com/crunchydata/crunchy-postgres@sha256:16aa44a68786e213130e84baf3fb2292ee5acdcf2695d87b25f8172492d2bf20
-  postgresVersion: 16
+  image: registry.connect.redhat.com/crunchydata/crunchy-postgres@sha256:68cec14ba9e7ab7f5ecff2bba21f35b0ce7cf0f83aea8b1162bfcaeea98a340e
+  postgresVersion: 18
   patroni:
     dynamicConfiguration:
       postgresql:
