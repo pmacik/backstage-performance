@@ -403,7 +403,7 @@ create_objs() {
 rhdh_token_timeout=$(bc -l <<<"scale=0; v = (${BACKSTAGE_USER_COUNT} + ${GROUP_COUNT}) / 20; if (v < 3600) 3600 else v")
 
 get_catalog_entity_count() {
-    entity_type=$1
+    local entity_type=$1
     ACCESS_TOKEN=$(get_token "rhdh" "$rhdh_token_timeout")
     log_file="$TMP_DIR/get_$(echo "$entity_type" | tr '[:upper:]' '[:lower:]')_count.log"
     curl -s -k "$(backstage_url)/api/catalog/entities/by-query?limit=0&filter=kind%3D${entity_type}" --cookie "$COOKIE" --cookie-jar "$COOKIE" -H 'Content-Type: application/json' -H 'Authorization: Bearer '"$ACCESS_TOKEN" | tee -a "$log_file" | jq -r '.totalItems'
@@ -1053,10 +1053,10 @@ ensure_catalog_population() {
 }
 
 log_entity_count() {
-    entity_type=$1
-    e_count=$2
-    b_count=$3
-    timeout=$4
+    local entity_type=$1
+    local e_count=$2
+    local b_count=$3
+    local timeout=$4
 
     mkdir -p "$TMP_DIR/catalog-entity-counts"
     out="$TMP_DIR/catalog-entity-counts/entity-count.$entity_type.csv"
@@ -1067,7 +1067,7 @@ log_entity_count() {
 }
 
 ensure_entity_count() {
-    entity_type=$1
+    local entity_type=$1
     if [ "$entity_type" == "User" ]; then
         entity_icon="👤"
     elif [ "$entity_type" == "Group" ]; then
@@ -1078,8 +1078,8 @@ ensure_entity_count() {
         entity_icon="⚙️"
     fi
     entity_log="$entity_icon $entity_type"
-    e_count=$2
-    timeout=$3
+    local e_count=$2
+    local timeout=$3
 
     last_count=-1
     timeout_timestamp=$(python3 -c "from datetime import datetime, timedelta; t_add=int('$timeout'); print(int((datetime.now() + timedelta(seconds=t_add)).timestamp()))")
