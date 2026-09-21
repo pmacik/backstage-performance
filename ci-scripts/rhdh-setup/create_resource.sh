@@ -164,6 +164,12 @@ clone_and_upload() {
         cp -vf "$filename" "$(basename "$filename")"
         git add "$(basename "$filename")"
     done
+    # $text placeholders may only reference files in the same GitHub repository
+    # as the entity YAML (Backstage PlaceholderProcessor same-repo check).
+    if [[ "$1" == "api-*.yaml" ]]; then
+        cp -vf "$SCRIPT_DIR/template/component/openapi.yaml" openapi.yaml
+        git add openapi.yaml
+    fi
     git commit -a -m "commit objects"
     git push -f --set-upstream origin "$tmp_branch"
     cd ..
