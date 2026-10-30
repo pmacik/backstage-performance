@@ -88,6 +88,12 @@ end_ts="$(cat "${ARTIFACT_DIR}/benchmark-after")"
 mend=$(python3 -c "from datetime import datetime, timezone;ts ='$end_ts';dt_object = datetime.fromisoformat(ts.replace(',', '.'));formatted_ts = dt_object.strftime('%Y-%m-%dT%H:%M:%S%z');print(formatted_ts);")
 
 mhost=$(kubectl -n openshift-monitoring get route -l app.kubernetes.io/name=thanos-query -o json | jq --raw-output '.items[0].spec.host')
+
+if $cli -n rhdh-performance get deployment rhdh-developer-hub; then
+    metric_config=metrics-config.rhdh-on-devsandbox.yaml
+else
+    metric_config=metrics-config.yaml
+fi
 status_data.py \
     --status-data-file "$monitoring_collection_data" \
     --set \
@@ -126,4 +132,33 @@ done <<<"$(find "$monitoring_collection_dir" -name '*.csv')"
 wait
 
 csvjoin -c timestamp -d ";" --datetime-format "%F %T" "$monitoring_collection_dir"/*.csv >"$ARTIFACT_DIR/metrics-all.csv"
-csvcut -c "timestamp,measurements.cluster_configmaps_count,measurements.cluster_namespaces_count,measurements.cluster_secrets_count,measurements.rhdh-operator.memory,measurements.rhdh-operator.restarts,measurements.rhdh-developer-hub.cpu,measurements.rhdh-developer-hub.memory,measurements.rhdh-developer-hub.restarts" "$ARTIFACT_DIR/metrics-all.csv" >"$ARTIFACT_DIR/metrics.summary.csv"
+# csvcut treats "-" in a column name as a range, so a missing series such as
+# measurements.rhdh-developer-hub.cpu aborts with ColumnIdentifierError.
+python3 - "$ARTIFACT_DIR/metrics-all.csv" "$ARTIFACT_DIR/metrics.summary.csv" <<'PY'
+import csv
+import sys
+
+src, dst = sys.argv[1], sys.argv[2]
+columns = [
+    "timestamp",
+    "measurements.cluster_configmaps_count",
+    "measurements.cluster_namespaces_count",
+    "measurements.cluster_secrets_count",
+    "measurements.rhdh-operator.memory",
+    "measurements.rhdh-operator.restarts",
+    "measurements.rhdh-developer-hub.cpu",
+    "measurements.rhdh-developer-hub.memory",
+    "measurements.rhdh-developer-hub.restarts",
+]
+
+with open(src, newline="") as infile, open(dst, "w", newline="") as outfile:
+    reader = csv.DictReader(infile)
+    present = set(reader.fieldnames or [])
+    missing = [name for name in columns if name not in present]
+    if missing:
+        print("Warning: no samples collected for: " + ", ".join(missing), file=sys.stderr)
+    writer = csv.DictWriter(outfile, fieldnames=columns, extrasaction="ignore", restval="")
+    writer.writeheader()
+    for row in reader:
+        writer.writerow(row)
+PY
